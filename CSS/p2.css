@@ -1,0 +1,12 @@
+#canv {
+    border: 1px solid black;
+    margin: 10px;
+    cursor: pointer;
+}
+.controls {
+    margin: 10px;
+}
+button {
+    padding: 15px 20px;
+    font-size: 16px;
+}
