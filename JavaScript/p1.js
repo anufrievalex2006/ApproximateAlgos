@@ -20,13 +20,13 @@ function bfs(start, end) {
             {row: 0, col: 1}
         ];
         for (let d of dirs) {
-            let dy = cur.row + d.row;
-            let dx = cur.col + d.col;
-            if (dx >= 0 && dx < mapData.length && dy >= 0 && dy < mapData.length &&
-                mapData[dy][dx] !== 1 && !isVisited.has(key({row: dy, col: dx}))) {
-                let newPath = [...path, {row: dy, col: dx}];
+            let newY = cur.row + d.row;
+            let newX = cur.col + d.col;
+            if (newX >= 0 && newX < mapData.length && newY >= 0 && newY < mapData.length &&
+                mapData[newY][newX] !== 1 && !isVisited.has(key({row: newY, col: newX}))) {
+                let newPath = [...path, {row: newY, col: newX}];
                 queue.push(newPath);
-                isVisited.add(key({row: dy, col: dx}));
+                isVisited.add(key({row: newY, col: newX}));
             }
         }
     }
@@ -150,8 +150,7 @@ function clearMap() {
     });
     mode = '';
     document.getElementById('mode').textContent = 'Selected Mode: None';
-    start = null;
-    end = null;
+    start = null, end = null;
 }
 
 function setStart() {
@@ -177,4 +176,5 @@ function clearCell() {
     document.getElementById('mode').textContent = 'Selected Mode: Cell Clear';
     mode = 'clear';
 }
+
 window.onload = generateMap;
