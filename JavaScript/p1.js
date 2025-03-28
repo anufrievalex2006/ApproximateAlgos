@@ -2,7 +2,7 @@ let mode = '';
 let start = null, end = null;
 let mapData = [];
 
-function bfs(start, end) {
+function findPath(start, end) {
     let queue = [[start]], isVisited = new Set();
     let key = pos => `${pos.row},${pos.col}`;
     isVisited.add(key(start));
@@ -114,7 +114,7 @@ function findPath() {
         row: Math.floor(Array.from(document.querySelectorAll('.cell')).indexOf(end) / mapData.length),
         col: Array.from(document.querySelectorAll('.cell')).indexOf(end) % mapData.length
     };
-    let path = bfs(startPos, endPos);
+    let path = findPath(startPos, endPos);
     if (path) {
         visualizePath(path);
         document.getElementById('res').textContent = 'Path found!';
