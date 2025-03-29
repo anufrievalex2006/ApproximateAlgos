@@ -9,6 +9,10 @@ function drawPoint(x, y, color) {
     ctx.fill();
 }
 
+function clearMap() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 canvas.addEventListener('click', function(e) {
     let rect = canvas.getBoundingClientRect();
     let x = e.clientX - rect.left;

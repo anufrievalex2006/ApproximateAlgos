@@ -2,6 +2,10 @@
     font-size: 26px;
     font-weight: bold;
 }
+.head {
+    display: flex;
+    flex-direction: row;
+}
 .container {
     display: flex;
     flex-direction: column;
