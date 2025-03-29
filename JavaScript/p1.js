@@ -3,9 +3,9 @@ let start = null, end = null;
 let mapData = [];
 
 function bfs(start, end) {
-    let queue = [[start]], isVisited = new Set();
+    let queue = [[start]], visitedCells = new Set();
     let key = pos => `${pos.row},${pos.col}`;
-    isVisited.add(key(start));
+    visitedCells.add(key(start));
     
     while (queue.length > 0) {
         let path = queue.shift();
@@ -23,10 +23,10 @@ function bfs(start, end) {
             let newY = cur.row + d.row;
             let newX = cur.col + d.col;
             if (newX >= 0 && newX < mapData.length && newY >= 0 && newY < mapData.length &&
-                mapData[newY][newX] !== 1 && !isVisited.has(key({row: newY, col: newX}))) {
+                mapData[newY][newX] !== 1 && !visitedCells.has(key({row: newY, col: newX}))) {
                 let newPath = [...path, {row: newY, col: newX}];
                 queue.push(newPath);
-                isVisited.add(key({row: newY, col: newX}));
+                visitedCells.add(key({row: newY, col: newX}));
             }
         }
     }
