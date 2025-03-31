@@ -1,6 +1,11 @@
 body {
     font-size: 32px;
 }
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 #canv {
     border: 1px solid black;
     margin: 10px;
