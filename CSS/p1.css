@@ -1,5 +1,7 @@
+body {
+    font-size: 32px;
+}
 #mode {
-    font-size: 26px;
     font-weight: bold;
 }
 .head {
@@ -47,10 +49,12 @@
     font-weight: bold;
 }
 button {
+    font-size: 22px;
     margin: 0 5px;
     padding: 5px 10px;
 }
 input {
+    font-size: 22px;
     margin: 0 10px;
     padding: 5px 5px;
 }
