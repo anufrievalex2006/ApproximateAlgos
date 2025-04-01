@@ -89,14 +89,8 @@ function handleClick(row, col) {
             break;
         case 'wall':
             if (cell.classList.contains('start') || cell.classList.contains('end')) return;
-            cell.classList.add('wall');
-            mapData[row][col] = 1;
-            break;
-        case 'clear':
-            cell.className = 'cell';
-            mapData[row][col] = 0;
-            if (cell === start) start = null;
-            if (cell === end) end = null;
+            cell.classList.toggle('wall');
+            mapData[row][col] = cell.classList.contains('wall') ? 1 : 0;
             break;
     }
 }
@@ -125,8 +119,7 @@ function findPath() {
 function visualizePath(path) {
     let cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
-       if (cell.classList.contains('path'))
-           cell.classList.remove('path');
+       if (cell.classList.contains('path')) cell.classList.remove('path');
     });
     for (let i = 1; i < path.length - 1; i++) {
         let id = path[i].row * mapData.length + path[i].col;
@@ -150,6 +143,7 @@ function clearMap() {
     });
     mode = '';
     document.getElementById('mode').textContent = 'Selected Mode: None';
+    document.getElementById('res').textContent = 'Map cleared';
     start = null, end = null;
 }
 
@@ -169,12 +163,6 @@ function setWall() {
     clearPath();
     document.getElementById('mode').textContent = 'Selected Mode: Wall Choice';
     mode = 'wall';
-}
-
-function clearCell() {
-    clearPath();
-    document.getElementById('mode').textContent = 'Selected Mode: Cell Clear';
-    mode = 'clear';
 }
 
 window.onload = generateMap;
