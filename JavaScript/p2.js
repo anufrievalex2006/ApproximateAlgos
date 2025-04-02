@@ -11,6 +11,7 @@ function drawPoint(x, y, color) {
 
 function clearMap() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    points = [];
 }
 
 canvas.addEventListener('click', function(e) {
