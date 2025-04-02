@@ -36,11 +36,11 @@ function areArraysSame(a, b) {
 }
 
 function clusterize() {
-    if (points.length < 2) {
-        alert('You should add at least 2 points!');
+    let k = parseInt(document.getElementById('kClusters').value);
+    if (points.length < k) {
+        alert(`You should add at least ${k} points! (${k - points.length} left)`);
         return;
     }
-    let k = parseInt(document.getElementById('kClusters').value);
     let clusters = kMeans(points, k);
     drawClusters(clusters);
 }
@@ -52,7 +52,7 @@ function kMeans(points, k) {
     while (true) {
         for (let i = 0; i < points.length; i++) {
             let minDist = Infinity, minIndex = -1;
-            for (let j = 0; j < centroids.length; j++) {
+            for (let j = 0; j < k; j++) {
                 let dist = distance(points[i], centroids[j]);
                 if (dist < minDist) {
                     minDist = dist;
@@ -86,7 +86,7 @@ function kMeans(points, k) {
 
 function drawClusters(assigns) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let colors = ['red', 'blue', 'green', 'yellow', 'pink', 'gray', 'purple', 'brown', 'cyan', 'orange'];
+    let colors = ['red', 'blue', 'green', 'yellow', 'lime', 'gray', 'purple', 'brown', 'cyan', 'orange'];
     for (let i = 0; i < points.length; i++) {
         let color = colors[assigns[i] % colors.length];
         drawPoint(points[i][0], points[i][1], color);
