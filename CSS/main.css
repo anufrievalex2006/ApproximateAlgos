@@ -17,6 +17,10 @@ p {
     padding: 10px;
     text-decoration: none;
 }
+#bonus {
+    background-color: green;
+    color: gold;
+}
 #unavailable {
     background-color: firebrick;
     color: white;

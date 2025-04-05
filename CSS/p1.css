@@ -44,6 +44,15 @@ body {
 .path {
     background-color: yellow;
 }
+.visited {
+    background-color: cyan;
+}
+.considering {
+    background-color: orange;
+}
+.current {
+    background-color: magenta;
+}
 .res {
     margin-top: 20px;
     font-weight: bold;
