@@ -16,7 +16,7 @@ async function bfs(start, end) {
         let curCell = cells[cur.row * mapData.length + cur.col];
         if (!curCell.classList.contains('start') && !curCell.classList.contains('end'))
             curCell.classList.add('current');
-        await delay(75);
+        await delay(20);
 
         if (cur.row == end.row && cur.col == end.col) {
             curCell.classList.remove('current');
@@ -24,7 +24,7 @@ async function bfs(start, end) {
                 let pathCell = cells[path[i].row * mapData.length + path[i].col];
                 pathCell.classList.remove('visited');
                 pathCell.classList.add('path');
-                await delay(35);
+                await delay(20);
             }
             return path;
         }
@@ -45,7 +45,7 @@ async function bfs(start, end) {
                     toConsider.classList.add('considering');
             }
         }
-        await delay(75);
+        await delay(20);
         for (let d of dirs) {
             let newY = cur.row + d.row;
             let newX = cur.col + d.col;
@@ -72,8 +72,8 @@ async function bfs(start, end) {
 
 function generateMaze() {
     let size = parseInt(document.getElementById('mapSize').value);
-    if (size > 15) {
-        alert('Size should not be more than 15!');
+    if (size > 100) {
+        alert('Size should not be more than 100!');
         return;
     }
     generateMap();
@@ -189,8 +189,8 @@ function generateMaze() {
 
 function generateMap() {
     let size = parseInt(document.getElementById('mapSize').value);
-    if (size > 15) {
-        alert('Size should not be more than 15!');
+    if (size > 100) {
+        alert('Size should not be more than 100!');
         return;
     }
     let map = document.getElementById('map');
