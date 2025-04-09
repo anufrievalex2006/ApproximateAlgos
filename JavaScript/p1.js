@@ -16,7 +16,7 @@ async function bfs(start, end) {
         let curCell = cells[cur.row * mapData.length + cur.col];
         if (!curCell.classList.contains('start') && !curCell.classList.contains('end'))
             curCell.classList.add('current');
-        await delay(100);
+        await delay(75);
 
         if (cur.row == end.row && cur.col == end.col) {
             curCell.classList.remove('current');
@@ -24,7 +24,7 @@ async function bfs(start, end) {
                 let pathCell = cells[path[i].row * mapData.length + path[i].col];
                 pathCell.classList.remove('visited');
                 pathCell.classList.add('path');
-                await delay(50);
+                await delay(35);
             }
             return path;
         }
@@ -45,7 +45,7 @@ async function bfs(start, end) {
                     toConsider.classList.add('considering');
             }
         }
-        await delay(100);
+        await delay(75);
         for (let d of dirs) {
             let newY = cur.row + d.row;
             let newX = cur.col + d.col;
@@ -263,10 +263,17 @@ function handleClick(row, col) {
 }
 
 async function findPath() {
+    clearPath();
     if (!start || !end) {
         document.getElementById('res').textContent = 'You should set both start and end positions!';
         return;
     }
+    
+    document.querySelector('button[onclick="findPath()"]').disabled = true;
+    document.querySelector('button[onclick="clearPath()"]').disabled = true;
+    document.querySelector('button[onclick="clearMap()"]').disabled = true;
+    
+    document.getElementById('res').textContent = 'Findin path in progres';
     let startPos = {
         row: Math.floor(Array.from(document.querySelectorAll('.cell')).indexOf(start) / mapData.length),
         col: Array.from(document.querySelectorAll('.cell')).indexOf(start) % mapData.length
@@ -278,6 +285,10 @@ async function findPath() {
     let path = await bfs(startPos, endPos);
     if (path) document.getElementById('res').textContent = 'Path found!';
     else document.getElementById('res').textContent = 'Path not found!';
+    
+    document.querySelector('button[onclick="findPath()"]').disabled = false;
+    document.querySelector('button[onclick="clearPath()"]').disabled = false;
+    document.querySelector('button[onclick="clearMap()"]').disabled = false;
 }
 
 function clearPath() {
