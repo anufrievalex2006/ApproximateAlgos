@@ -206,6 +206,9 @@ function generateMap() {
         for (let j = 0; j < size; j++) {
             let cell = document.createElement('td');
             cell.className = 'cell';
+            const cellSize = (size >= 10) ? Math.floor(1000 / size) : 100;
+            cell.style.width = `${cellSize}px`;
+            cell.style.height = `${cellSize}px`;
             cell.onclick = () => handleClick(i, j);
             tableRow.appendChild(cell);
             row.push(0);
@@ -269,6 +272,11 @@ async function findPath() {
         return;
     }
     
+    document.querySelector('button[onclick="generateMap()"]').disabled = true;
+    document.querySelector('button[onclick="generateMaze()"]').disabled = true;
+    document.querySelector('button[onclick="setStart()"]').disabled = true;
+    document.querySelector('button[onclick="setEnd()"]').disabled = true;
+    document.querySelector('button[onclick="setWall()"]').disabled = true;
     document.querySelector('button[onclick="findPath()"]').disabled = true;
     document.querySelector('button[onclick="clearPath()"]').disabled = true;
     document.querySelector('button[onclick="clearMap()"]').disabled = true;
@@ -286,6 +294,11 @@ async function findPath() {
     if (path) document.getElementById('res').textContent = 'Path found!';
     else document.getElementById('res').textContent = 'Path not found!';
     
+    document.querySelector('button[onclick="generateMap()"]').disabled = false;
+    document.querySelector('button[onclick="generateMaze()"]').disabled = false;
+    document.querySelector('button[onclick="setStart()"]').disabled = false;
+    document.querySelector('button[onclick="setEnd()"]').disabled = false;
+    document.querySelector('button[onclick="setWall()"]').disabled = false;
     document.querySelector('button[onclick="findPath()"]').disabled = false;
     document.querySelector('button[onclick="clearPath()"]').disabled = false;
     document.querySelector('button[onclick="clearMap()"]').disabled = false;
@@ -299,16 +312,16 @@ function clearPath() {
 }
 
 function clearMap() {
+    start = null, end = null;
+    mode = '';
+    document.getElementById('mode').textContent = 'Selected Mode: None';
+    document.getElementById('res').textContent = 'Map cleared';
     let cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
         cell.classList.remove('start', 'end', 'wall', 'path', 'considering', 'visited', 'current');
         mapData[Math.floor(Array.from(cells).indexOf(cell) / mapData.length)]
                [Array.from(cells).indexOf(cell) % mapData.length] = 0;
     });
-    mode = '';
-    document.getElementById('mode').textContent = 'Selected Mode: None';
-    document.getElementById('res').textContent = 'Map cleared';
-    start = null, end = null;
 }
 
 function setStart() {
