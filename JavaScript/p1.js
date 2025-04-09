@@ -2,6 +2,7 @@ let mode = '';
 let start = null, end = null;
 let mapData = [];
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+let isPathfinding = false, shouldBreak = false;
 
 async function bfs(start, end) {
     let cells = document.querySelectorAll('.cell');
@@ -9,7 +10,7 @@ async function bfs(start, end) {
     let key = pos => `${pos.row},${pos.col}`;
     visitedCells.add(key(start));
     
-    while (queue.length > 0) {
+    while (queue.length > 0 && !shouldBreak) {
         let path = queue.shift();
         let cur = path[path.length - 1];
         
@@ -17,10 +18,17 @@ async function bfs(start, end) {
         if (!curCell.classList.contains('start') && !curCell.classList.contains('end'))
             curCell.classList.add('current');
         await delay(20);
+        if (shouldBreak) {
+            cells.forEach(cell => {
+                cell.classList.remove('visited', 'considering', 'current', 'path');
+            });
+            break;
+        }
 
         if (cur.row == end.row && cur.col == end.col) {
             curCell.classList.remove('current');
             for (let i = 1; i < path.length - 1; i++) {
+                if (shouldBreak) return null;
                 let pathCell = cells[path[i].row * mapData.length + path[i].col];
                 pathCell.classList.remove('visited');
                 pathCell.classList.add('path');
@@ -46,6 +54,13 @@ async function bfs(start, end) {
             }
         }
         await delay(20);
+        if (shouldBreak) {
+            cells.forEach(cell => {
+                cell.classList.remove('visited', 'considering', 'current', 'path');
+            });
+            break;
+        }
+
         for (let d of dirs) {
             let newY = cur.row + d.row;
             let newX = cur.col + d.col;
@@ -206,7 +221,7 @@ function generateMap() {
         for (let j = 0; j < size; j++) {
             let cell = document.createElement('td');
             cell.className = 'cell';
-            const cellSize = (size >= 10) ? Math.floor(1000 / size) : 100;
+            const cellSize = (size > 30) ? Math.floor(1400 / size) : 50;
             cell.style.width = `${cellSize}px`;
             cell.style.height = `${cellSize}px`;
             cell.onclick = () => handleClick(i, j);
@@ -221,6 +236,7 @@ function generateMap() {
 }
 
 function handleClick(row, col) {
+    if (isPathfinding) return;
     clearPath();
     let cells = document.querySelectorAll('.cell');
     let i = row * mapData.length + col;
@@ -266,22 +282,16 @@ function handleClick(row, col) {
 }
 
 async function findPath() {
+    if (isPathfinding) return;
     clearPath();
     if (!start || !end) {
         document.getElementById('res').textContent = 'You should set both start and end positions!';
         return;
     }
     
-    document.querySelector('button[onclick="generateMap()"]').disabled = true;
-    document.querySelector('button[onclick="generateMaze()"]').disabled = true;
-    document.querySelector('button[onclick="setStart()"]').disabled = true;
-    document.querySelector('button[onclick="setEnd()"]').disabled = true;
-    document.querySelector('button[onclick="setWall()"]').disabled = true;
-    document.querySelector('button[onclick="findPath()"]').disabled = true;
-    document.querySelector('button[onclick="clearPath()"]').disabled = true;
-    document.querySelector('button[onclick="clearMap()"]').disabled = true;
-    
-    document.getElementById('res').textContent = 'Findin path in progres';
+    isPathfinding = true;
+    shouldBreak = false;
+    document.getElementById('res').textContent = 'Finding path in progress';
     let startPos = {
         row: Math.floor(Array.from(document.querySelectorAll('.cell')).indexOf(start) / mapData.length),
         col: Array.from(document.querySelectorAll('.cell')).indexOf(start) % mapData.length
@@ -291,27 +301,24 @@ async function findPath() {
         col: Array.from(document.querySelectorAll('.cell')).indexOf(end) % mapData.length
     };
     let path = await bfs(startPos, endPos);
-    if (path) document.getElementById('res').textContent = 'Path found!';
-    else document.getElementById('res').textContent = 'Path not found!';
-    
-    document.querySelector('button[onclick="generateMap()"]').disabled = false;
-    document.querySelector('button[onclick="generateMaze()"]').disabled = false;
-    document.querySelector('button[onclick="setStart()"]').disabled = false;
-    document.querySelector('button[onclick="setEnd()"]').disabled = false;
-    document.querySelector('button[onclick="setWall()"]').disabled = false;
-    document.querySelector('button[onclick="findPath()"]').disabled = false;
-    document.querySelector('button[onclick="clearPath()"]').disabled = false;
-    document.querySelector('button[onclick="clearMap()"]').disabled = false;
+    if (!shouldBreak) {
+        if (path) document.getElementById('res').textContent = 'Path found!';
+        else document.getElementById('res').textContent = 'Path not found!';
+    }
+    isPathfinding = false;
 }
 
 function clearPath() {
+    shouldBreak = true;
     let cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
         cell.classList.remove('path', 'considering', 'current', 'visited');           
     });
+    document.getElementById('res').textContent = 'Path cleared';
 }
 
 function clearMap() {
+    shouldBreak = true;
     start = null, end = null;
     mode = '';
     document.getElementById('mode').textContent = 'Selected Mode: None';
@@ -325,18 +332,21 @@ function clearMap() {
 }
 
 function setStart() {
+    if (isPathfinding) return;
     clearPath();
     document.getElementById('mode').textContent = 'Selected Mode: Start Choice';
     mode = 'start';
 }
 
 function setEnd() {
+    if (isPathfinding) return;
     clearPath();
     document.getElementById('mode').textContent = 'Selected Mode: End Choice';
     mode = 'end';
 }
 
 function setWall() {
+    if (isPathfinding) return;
     clearPath();
     document.getElementById('mode').textContent = 'Selected Mode: Wall Choice';
     mode = 'wall';
