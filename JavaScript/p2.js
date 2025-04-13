@@ -9,6 +9,17 @@ function drawPoint(x, y, color) {
     ctx.fill();
 }
 
+function generateKPoints() {
+    clearMap();
+    let k = parseInt(document.getElementById('kGener').value);
+    for (let i = 0; i < k; i++) {
+        let x = Math.floor(Math.random() * (canvas.width - 20)) + 10;
+        let y = Math.floor(Math.random() * (canvas.height - 20)) + 10;
+        points.push([x, y]);
+        drawPoint(x, y, 'black');
+    }
+}
+
 function clearMap() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     points = [];
