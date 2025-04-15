@@ -1,3 +1,33 @@
+.panel {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 10px;
+    right: 10px;
+    background-color: lightgray;
+    padding: 15px;
+}
+.panel a{
+    font-size: 32px;
+    background-color: gray;
+    gap: 10px;
+    margin: 5px 0;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+}
+.panel a:hover{
+    background-color: gold;
+    color: green;
+}
+#a-current {
+    background-color: cyan;
+    color: red;
+}
+#a-locked {
+    background-color: firebrick;
+    color: white;
+}
 body {
     font-size: 32px;
 }

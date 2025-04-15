@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ant Algorithm</title>
+        <link href="../CSS/p4.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="panel">
+            <a href="p1.html">A* Algorithm</a>
+            <a href="p2.html">Clusterization</a>
+            <a id="a-locked" href="#">Genetic Algorithm</a>
+            <a id="a-current" href="#">Ant Algorithm</a>
+            <a id="a-locked" href="#">Tree Solution</a>
+            <a id="a-locked" href="#">New AI</a>
+            <a href="main.html">Main Menu</a>
+        </div>
+        <div class="controls">
+            <button onclick="findPath()">Start Ant Algorithm</button>
+            <button style="background-color: yellow; font-weight: bold" onclick="window.location='main.html'">Back to Menu</button>
+        </div>
+        <canvas id="graphCanvas" width="800" height="600"></canvas>
+        <div class="controls">
+            <input type="number" id="kPoints" value="10" min="2" placeholder="Num of points">
+            <button onclick="generatePoints()">Generate points</button>
+            <button onclick="clearMap()">Reset</button>
+        </div>
+        <script src="../JavaScript/p4.js"></script>
+    </body>
+</html>
