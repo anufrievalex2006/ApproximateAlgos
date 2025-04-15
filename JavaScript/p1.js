@@ -71,7 +71,7 @@ async function aStar(start, end) {
             let newX = cur.col + d.col;
             let neighbor = {row: newY, col: newX};
             if (newX >= 0 && newX < mapData.length && newY >= 0 && newY < mapData.length &&
-                mapData[newY][newX] !== 1 && !visitedCells.has(key(neighbor))) {
+                mapData[newY][newX] !== 1 && !closedSet.has(key(neighbor))) {
                 let toConsider = cells[newY * mapData.length + newX];
                 if (!toConsider.classList.contains('start') && !toConsider.classList.contains('end')
                     && !toConsider.classList.contains('visited'))
@@ -88,8 +88,8 @@ async function aStar(start, end) {
         for (let d of dirs) {
             let newY = cur.row + d.row;
             let newX = cur.col + d.col;
-            if (newX < 0 || newX >= mapData.length || newY < 0 || newY >= mapData.length)
-                continue;
+            if (newX < 0 || newX >= mapData.length || newY < 0 || newY >= mapData.length
+                || mapData[newY][newX] === 1) continue;
 
             let neighbor = {row: newY, col: newX};
             if (closedSet.has(key(neighbor))) continue;
