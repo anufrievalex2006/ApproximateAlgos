@@ -324,11 +324,10 @@ function clearMap() {
     document.getElementById('mode').textContent = 'Selected Mode: None';
     document.getElementById('res').textContent = 'Map cleared';
     let cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => {
-        cell.classList.remove('start', 'end', 'wall', 'path', 'considering', 'visited', 'current');
-        mapData[Math.floor(Array.from(cells).indexOf(cell) / mapData.length)]
-               [Array.from(cells).indexOf(cell) % mapData.length] = 0;
-    });
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].classList.remove('start', 'end', 'wall', 'path', 'considering', 'current', 'visited');
+        mapData[Math.floor(i / mapData.length)][i % mapData.length] = 0;
+    }
 }
 
 function setStart() {
