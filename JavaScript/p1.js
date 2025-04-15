@@ -6,7 +6,7 @@ let isPathfinding = false, shouldBreak = false;
 
 async function aStar(start, end) {
     let cells = document.querySelectorAll('.cell');
-    let openSet = [start], closedSet = new Set();
+    let queue = [start], visitedCells = new Set();
     let key = pos => `${pos.row},${pos.col}`;
     let cameFrom = {};
 
@@ -14,9 +14,9 @@ async function aStar(start, end) {
         return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
     }
 
-    let fScore = {}, gScore = {};
-    fScore[key(start)] = heuristicDist(start, end);
-    gScore[key(start)] = 0;
+    let estimatedTotal = {}, costFromStart = {};
+    estimatedTotal[key(start)] = heuristicDist(start, end);
+    costFromStart[key(start)] = 0;
 
     async function reconstructPath(cur) {
         let path = [cur];
@@ -34,11 +34,13 @@ async function aStar(start, end) {
         return path;
     }
     
-    while (openSet.length > 0 && !shouldBreak) {
-        let cur = openSet.reduce((lowest, node) => 
-            (fScore[key(node)] < fScore[key(lowest)]) ? node : lowest,
-        openSet[0]);
-        let curPos = openSet.findIndex(node => 
+    while (queue.length > 0 && !shouldBreak) {
+        let cur = queue[0];
+        for (let i = 1; i < queue.length; i++) {
+            if (estimatedTotal[key(queue[i])] < estimatedTotal[key(cur)])
+                cur = queue[i];
+        }
+        let curPos = queue.findIndex(node => 
             node.row === cur.row && node.col === cur.col
         );
         
@@ -57,8 +59,8 @@ async function aStar(start, end) {
             return await reconstructPath(cur);
         }
         
-        openSet.splice(curPos, 1);
-        closedSet.add(key(cur));
+        queue.splice(curPos, 1);
+        visitedCells.add(key(cur));
 
         let dirs = [
             {row: -1, col: 0},
@@ -71,7 +73,7 @@ async function aStar(start, end) {
             let newX = cur.col + d.col;
             let neighbor = {row: newY, col: newX};
             if (newX >= 0 && newX < mapData.length && newY >= 0 && newY < mapData.length &&
-                mapData[newY][newX] !== 1 && !closedSet.has(key(neighbor))) {
+                mapData[newY][newX] !== 1 && !visitedCells.has(key(neighbor))) {
                 let toConsider = cells[newY * mapData.length + newX];
                 if (!toConsider.classList.contains('start') && !toConsider.classList.contains('end')
                     && !toConsider.classList.contains('visited'))
@@ -92,22 +94,22 @@ async function aStar(start, end) {
                 || mapData[newY][newX] === 1) continue;
 
             let neighbor = {row: newY, col: newX};
-            if (closedSet.has(key(neighbor))) continue;
+            if (visitedCells.has(key(neighbor))) continue;
 
-            let tentativeG = gScore[key(cur)] + 1;
-            if (!openSet.some(node => node.row === neighbor.row && node.col === neighbor.col)) {
-                openSet.push(neighbor);
+            let tentativeG = costFromStart[key(cur)] + 1;
+            if (!queue.some(node => node.row === neighbor.row && node.col === neighbor.col)) {
+                queue.push(neighbor);
                 let newCell = cells[newY * mapData.length + newX];
                 if (!newCell.classList.contains('start') && !newCell.classList.contains('end')) {
                     newCell.classList.remove('considering');
                     newCell.classList.add('visited');
                 }
             }
-            else if (tentativeG >= (gScore[key(neighbor)] || Infinity)) continue;
+            else if (tentativeG >= (costFromStart[key(neighbor)] || Infinity)) continue;
             
             cameFrom[key(neighbor)] = cur;
-            gScore[key(neighbor)] = tentativeG;
-            fScore[key(neighbor)] = gScore[key(neighbor)] + heuristicDist(neighbor, end);
+            costFromStart[key(neighbor)] = tentativeG;
+            estimatedTotal[key(neighbor)] = costFromStart[key(neighbor)] + heuristicDist(neighbor, end);
         }
 
         if (!curCell.classList.contains('start') && !curCell.classList.contains('end')) {
@@ -318,13 +320,12 @@ async function findPath() {
     if (isPathfinding) return;
     clearPath();
     if (!start || !end) {
-        document.getElementById('res').textContent = 'You should set both start and end positions!';
+        alert('You should set both start and end positions!');
         return;
     }
     
     isPathfinding = true;
     shouldBreak = false;
-    document.getElementById('res').textContent = 'Finding path in progress';
     let startPos = {
         row: Math.floor(Array.from(document.querySelectorAll('.cell')).indexOf(start) / mapData.length),
         col: Array.from(document.querySelectorAll('.cell')).indexOf(start) % mapData.length
@@ -335,8 +336,8 @@ async function findPath() {
     };
     let path = await aStar(startPos, endPos);
     if (!shouldBreak) {
-        if (path) document.getElementById('res').textContent = 'Path found!';
-        else document.getElementById('res').textContent = 'Path not found!';
+        if (path) alert('Path found!');
+        else alert('Path not found!');
     }
     isPathfinding = false;
 }
@@ -347,7 +348,6 @@ function clearPath() {
     cells.forEach(cell => {
         cell.classList.remove('path', 'considering', 'current', 'visited');           
     });
-    document.getElementById('res').textContent = 'Path cleared';
 }
 
 function clearMap() {
@@ -355,7 +355,6 @@ function clearMap() {
     start = null, end = null;
     mode = '';
     document.getElementById('mode').textContent = 'Selected Mode: None';
-    document.getElementById('res').textContent = 'Map cleared';
     let cells = document.querySelectorAll('.cell');
     for (let i = 0; i < cells.length; i++) {
         cells[i].classList.remove('start', 'end', 'wall', 'path', 'considering', 'current', 'visited');
