@@ -4,39 +4,62 @@ let mapData = [];
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 let isPathfinding = false, shouldBreak = false;
 
-async function bfs(start, end) {
+async function aStar(start, end) {
     let cells = document.querySelectorAll('.cell');
-    let queue = [[start]], visitedCells = new Set();
+    let openSet = [start], closedSet = new Set();
     let key = pos => `${pos.row},${pos.col}`;
-    visitedCells.add(key(start));
+    let cameFrom = {};
+
+    function heuristicDist(a, b) {
+        return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
+    }
+
+    let fScore = {}, gScore = {};
+    fScore[key(start)] = heuristicDist(start, end);
+    gScore[key(start)] = 0;
+
+    async function reconstructPath(cur) {
+        let path = [cur];
+        while (key(cur) in cameFrom) {
+            cur = cameFrom[key(cur)];
+            path.unshift(cur);
+        }
+        for (let i = 1; i < path.length - 1; i++) {
+            if (shouldBreak) return null;
+            let pathCell = cells[path[i].row * mapData.length + path[i].col];
+            pathCell.classList.remove('visited');
+            pathCell.classList.add('path');
+            await delay(20);
+        }
+        return path;
+    }
     
-    while (queue.length > 0 && !shouldBreak) {
-        let path = queue.shift();
-        let cur = path[path.length - 1];
+    while (openSet.length > 0 && !shouldBreak) {
+        let cur = openSet.reduce((lowest, node) => 
+            (fScore[key(node)] < fScore[key(lowest)]) ? node : lowest,
+        openSet[0]);
+        let curPos = openSet.findIndex(node => 
+            node.row === cur.row && node.col === cur.col
+        );
         
         let curCell = cells[cur.row * mapData.length + cur.col];
         if (!curCell.classList.contains('start') && !curCell.classList.contains('end'))
             curCell.classList.add('current');
         await delay(20);
         if (shouldBreak) {
-            cells.forEach(cell => {
-                cell.classList.remove('visited', 'considering', 'current', 'path');
-            });
+            for (let i = 0; i < cells.length; i++)
+                cells[i].classList.remove('visited', 'considering', 'current', 'path');
             break;
         }
 
         if (cur.row == end.row && cur.col == end.col) {
             curCell.classList.remove('current');
-            for (let i = 1; i < path.length - 1; i++) {
-                if (shouldBreak) return null;
-                let pathCell = cells[path[i].row * mapData.length + path[i].col];
-                pathCell.classList.remove('visited');
-                pathCell.classList.add('path');
-                await delay(20);
-            }
-            return path;
+            return await reconstructPath(cur);
         }
         
+        openSet.splice(curPos, 1);
+        closedSet.add(key(cur));
+
         let dirs = [
             {row: -1, col: 0},
             {row: 1, col: 0},
@@ -46,35 +69,45 @@ async function bfs(start, end) {
         for (let d of dirs) {
             let newY = cur.row + d.row;
             let newX = cur.col + d.col;
+            let neighbor = {row: newY, col: newX};
             if (newX >= 0 && newX < mapData.length && newY >= 0 && newY < mapData.length &&
-                mapData[newY][newX] !== 1 && !visitedCells.has(key({row: newY, col: newX}))) {
+                mapData[newY][newX] !== 1 && !visitedCells.has(key(neighbor))) {
                 let toConsider = cells[newY * mapData.length + newX];
-                if (!toConsider.classList.contains('start') && !toConsider.classList.contains('end'))
+                if (!toConsider.classList.contains('start') && !toConsider.classList.contains('end')
+                    && !toConsider.classList.contains('visited'))
                     toConsider.classList.add('considering');
             }
         }
         await delay(20);
         if (shouldBreak) {
-            cells.forEach(cell => {
-                cell.classList.remove('visited', 'considering', 'current', 'path');
-            });
+            for (let i = 0; i < cells.length; i++)
+                cells[i].classList.remove('visited', 'considering', 'current', 'path');
             break;
         }
 
         for (let d of dirs) {
             let newY = cur.row + d.row;
             let newX = cur.col + d.col;
-            if (newX >= 0 && newX < mapData.length && newY >= 0 && newY < mapData.length &&
-                mapData[newY][newX] !== 1 && !visitedCells.has(key({row: newY, col: newX}))) {
+            if (newX < 0 || newX >= mapData.length || newY < 0 || newY >= mapData.length)
+                continue;
+
+            let neighbor = {row: newY, col: newX};
+            if (closedSet.has(key(neighbor))) continue;
+
+            let tentativeG = gScore[key(cur)] + 1;
+            if (!openSet.some(node => node.row === neighbor.row && node.col === neighbor.col)) {
+                openSet.push(neighbor);
                 let newCell = cells[newY * mapData.length + newX];
                 if (!newCell.classList.contains('start') && !newCell.classList.contains('end')) {
                     newCell.classList.remove('considering');
                     newCell.classList.add('visited');
                 }
-                let newPath = [...path, {row: newY, col: newX}];
-                queue.push(newPath);
-                visitedCells.add(key({row: newY, col: newX}));
             }
+            else if (tentativeG >= (gScore[key(neighbor)] || Infinity)) continue;
+            
+            cameFrom[key(neighbor)] = cur;
+            gScore[key(neighbor)] = tentativeG;
+            fScore[key(neighbor)] = gScore[key(neighbor)] + heuristicDist(neighbor, end);
         }
 
         if (!curCell.classList.contains('start') && !curCell.classList.contains('end')) {
@@ -300,7 +333,7 @@ async function findPath() {
         row: Math.floor(Array.from(document.querySelectorAll('.cell')).indexOf(end) / mapData.length),
         col: Array.from(document.querySelectorAll('.cell')).indexOf(end) % mapData.length
     };
-    let path = await bfs(startPos, endPos);
+    let path = await aStar(startPos, endPos);
     if (!shouldBreak) {
         if (path) document.getElementById('res').textContent = 'Path found!';
         else document.getElementById('res').textContent = 'Path not found!';
