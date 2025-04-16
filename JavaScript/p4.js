@@ -10,8 +10,8 @@ const Q = 100;   // количество феромона
 
 canvas.addEventListener('click', function(event) {
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
     points.push({x, y});
     drawPoint(x, y, pIndex);
     pIndex++;
