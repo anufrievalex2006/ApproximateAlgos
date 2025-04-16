@@ -2,19 +2,24 @@ let canvas = document.getElementById('canv');
 let ctx = canvas.getContext('2d');
 let points = [];
 
-function drawPoint(x, y, color) {
+function drawPoint(x, y, color, label = '') {
     ctx.beginPath();
     ctx.arc(x, y, 5, 0, 2 * Math.PI);
     ctx.fillStyle = color;
     ctx.fill();
+    if (label) {
+        ctx.fillStyle = 'black';
+        ctx.font = '12px Arial';
+        ctx.fillText(label, x - 32, y + 20);
+    }
 }
 
 function generateKPoints() {
     clearMap();
     let k = parseInt(document.getElementById('kGener').value);
     for (let i = 0; i < k; i++) {
-        let x = Math.floor(Math.random() * (canvas.width - 20)) + 10;
-        let y = Math.floor(Math.random() * (canvas.height - 20)) + 10;
+        let x = Math.floor(Math.random() * (canvas.width - 40)) + 20;
+        let y = Math.floor(Math.random() * (canvas.height - 40)) + 20;
         points.push([x, y]);
         drawPoint(x, y, 'black');
     }
@@ -33,10 +38,22 @@ canvas.addEventListener('click', function(e) {
     drawPoint(x, y, 'black');    
 });
 
-function distance(p1, p2) {
+function euclideanDist(p1, p2) {
     let dx = p1[0] - p2[0];
     let dy = p1[1] - p2[1];
     return Math.sqrt(dx*dx + dy*dy);
+}
+
+function manhattanDist(p1, p2) {
+    let dx = p1[0] - p2[0];
+    let dy = p1[1] - p2[1];
+    return Math.abs(dx) + Math.abs(dy);
+}
+
+function chebyshevDist(p1, p2) {
+    let dx = p1[0] - p2[0];
+    let dy = p1[1] - p2[1];
+    return Math.max(Math.abs(dx), Math.abs(dy));
 }
 
 function areArraysSame(a, b) {
@@ -52,11 +69,14 @@ function clusterize() {
         alert(`You should add at least ${k} points! (${k - points.length} left)`);
         return;
     }
-    let clusters = kMeans(points, k);
-    drawClusters(clusters);
+    
+    let clustersEuclidean = kMeans(points, k, euclideanDist);
+    let clustersManhattan = kMeans(points, k, manhattanDist);
+    let clustersChebyshev = kMeans(points, k, chebyshevDist);
+    drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChebyshev);
 }
 
-function kMeans(points, k) {
+function kMeans(points, k, distFunc) {
     let centroids = points.slice(0, k);
     let assigns = new Array(points.length);
     let oldAssigns = null;
@@ -64,7 +84,7 @@ function kMeans(points, k) {
         for (let i = 0; i < points.length; i++) {
             let minDist = Infinity, minIndex = -1;
             for (let j = 0; j < k; j++) {
-                let dist = distance(points[i], centroids[j]);
+                let dist = distFunc(points[i], centroids[j]);
                 if (dist < minDist) {
                     minDist = dist;
                     minIndex = j;
@@ -95,11 +115,16 @@ function kMeans(points, k) {
     return assigns;
 }
 
-function drawClusters(assigns) {
+function drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChebyshev) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let colors = ['red', 'blue', 'green', 'yellow', 'lime', 'gray', 'purple', 'brown', 'cyan', 'orange'];
+    let colors = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'brown', 'gray', 'lime'];
+    
     for (let i = 0; i < points.length; i++) {
-        let color = colors[assigns[i] % colors.length];
-        drawPoint(points[i][0], points[i][1], color);
+        let e = clustersEuclidean[i];
+        let m = clustersManhattan[i];
+        let c = clustersChebyshev[i];
+        
+        if (e === m && m === c) drawPoint(points[i][0], points[i][1], colors[e % colors.length]);
+        else drawPoint(points[i][0], points[i][1], 'black', `E:${e+1} M:${m+1} C:${c+1}`);
     }
 }
