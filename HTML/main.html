@@ -4,30 +4,48 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Game Website</title>
-            <link rel="stylesheet" href="../CSS/main.css">
+            <link rel="stylesheet" href="main.css">
         </head>
         <body>
+            <style>
+                body {
+                   margin: 0;
+                }
+                .container {
+                   display: flex;
+                   flex-wrap: wrap;
+                }
+                .btn {
+                   width: 100%;
+                   min-height: 1px;
+                }
+                </style>
+              
             <div class="wrapper">
             <header class="container">
                 <span class="logo">logo</span>
                 <nav>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li class="active"><a href="about.html">About us</a></li>
-                    </ul>
+                    <li><a href="/">Home</a></li>
+
+                    <li class="active"><a href="about.html">About us</a></li>
+                    
                 </nav>
             </header>
-            <div class="hero container">
+           
+            <div class="container">
                 <div class="hero--info">
                     <h3>Выбирайте <i>любой</i> алгоритм</h3>
                     <h1>Алгоритмы</h1>
                     <hr>
-                    <button class="btn" onclick="window.location.href='p1.html'">A-star*</button>
-                    <button class="btn" onclick="window.location.href='p2.html'">Кластер</button>
-                    <button class="btn" onclick="window.location.href='p4.html'">Муравей</button>
+                    
+                    <button class="btn">A-star*</button>
+                    <button class="btn">Кластер</button>
+                    <button class="btn">Муравей</button>
                     <button class="btn">Генетика</button>
                     <button class="btn">Дерево</button>
                     <button class="btn">Нейронка</button>
+                  
                 </div>
             </div>
         </div>
