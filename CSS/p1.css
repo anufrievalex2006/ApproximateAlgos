@@ -20,6 +20,10 @@
     background-color: cyan;
     color: red;
 }
+#a-currentb {
+    background: linear-gradient(to right, gold, cyan);
+    color: black;
+}
 #a-locked {
     background-color: firebrick;
     color: white;

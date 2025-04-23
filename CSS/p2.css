@@ -20,6 +20,10 @@
     background-color: cyan;
     color: red;
 }
+#a-currentb {
+    background: linear-gradient(to right, gold, cyan);
+    color: black;
+}
 #a-locked {
     background-color: firebrick;
     color: white;
@@ -32,6 +36,15 @@ body {
     flex-direction: column;
     align-items: center;
 }
+.points {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+#points-info {
+    width: 400px;
+    min-height: 150px;
+}
 #canv {
     border: 1px solid black;
     margin: 10px;
@@ -39,6 +52,15 @@ body {
 }
 .controls {
     margin: 10px;
+}
+.metrics {
+    margin-top: 93px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+}
+.metrics button{
+    height: 160px;
 }
 button {
     padding: 15px 20px;

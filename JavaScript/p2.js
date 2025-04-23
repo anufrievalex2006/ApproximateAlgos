@@ -9,8 +9,8 @@ function drawPoint(x, y, color, label = '') {
     ctx.fill();
     if (label) {
         ctx.fillStyle = 'black';
-        ctx.font = '12px Arial';
-        ctx.fillText(label, x - 32, y + 20);
+        ctx.font = '8px Arial';
+        ctx.fillText(label, x + 5, y + 10);
     }
 }
 
@@ -65,15 +65,36 @@ function areArraysSame(a, b) {
 
 function clusterize() {
     let k = parseInt(document.getElementById('kClusters').value);
-    if (points.length < k) {
-        alert(`You should add at least ${k} points! (${k - points.length} left)`);
-        return;
-    }
-    
+
+    k = Math.min(points.length, k);
     let clustersEuclidean = kMeans(points, k, euclideanDist);
     let clustersManhattan = kMeans(points, k, manhattanDist);
     let clustersChebyshev = kMeans(points, k, chebyshevDist);
     drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChebyshev);
+}
+
+function clusterizeEuclidean() {
+    let k = parseInt(document.getElementById('kClusters').value);
+
+    k = Math.min(points.length, k);
+    let clusters = kMeans(points, k, euclideanDist);
+    drawClusters(clusters);
+}
+
+function clusterizeManhattan() {
+    let k = parseInt(document.getElementById('kClusters').value);
+
+    k = Math.min(points.length, k);
+    let clusters = kMeans(points, k, manhattanDist);
+    drawClusters(clusters);
+}
+
+function clusterizeChebyshev() {
+    let k = parseInt(document.getElementById('kClusters').value);
+
+    k = Math.min(points.length, k);
+    let clusters = kMeans(points, k, chebyshevDist);
+    drawClusters(clusters);
 }
 
 function kMeans(points, k, distFunc) {
@@ -115,8 +136,18 @@ function kMeans(points, k, distFunc) {
     return assigns;
 }
 
+function drawClusters(clusters) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let colors = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'brown', 'gray', 'lime'];
+    for (let i = 0; i < points.length; i++) {
+        let c = clusters[i];
+        drawPoint(points[i][0], points[i][1], colors[c % colors.length]);
+    }
+}
+
 function drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChebyshev) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    document.getElementById('points-info').value = 'Euclidean:Manhattan:Chebyshev\n';
     let colors = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'brown', 'gray', 'lime'];
     
     for (let i = 0; i < points.length; i++) {
@@ -125,6 +156,9 @@ function drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChe
         let c = clustersChebyshev[i];
         
         if (e === m && m === c) drawPoint(points[i][0], points[i][1], colors[e % colors.length]);
-        else drawPoint(points[i][0], points[i][1], 'black', `E:${e+1} M:${m+1} C:${c+1}`);
+        else {
+            drawPoint(points[i][0], points[i][1], 'black', i + 1);
+            document.getElementById('points-info').value += `Point ${i+1} (${Math.floor(points[i][0])}; ${Math.floor(points[i][1])}) - ${e+1}:${m+1}:${c+1}\n`;
+        }
     }
 }
