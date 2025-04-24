@@ -1,6 +1,7 @@
 let canvas = document.getElementById('canv');
 let ctx = canvas.getContext('2d');
 let points = [];
+const colors = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'brown', 'gray', 'lime'];
 
 function drawPoint(x, y, color, label = '') {
     ctx.beginPath();
@@ -9,7 +10,7 @@ function drawPoint(x, y, color, label = '') {
     ctx.fill();
     if (label) {
         ctx.fillStyle = 'black';
-        ctx.font = '8px Arial';
+        ctx.font = '10px Arial';
         ctx.fillText(label, x + 5, y + 10);
     }
 }
@@ -148,7 +149,6 @@ function drawClusters(clusters) {
 function drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChebyshev) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     document.getElementById('points-info').value = 'Euclidean:Manhattan:Chebyshev\n';
-    let colors = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'brown', 'gray', 'lime'];
     
     for (let i = 0; i < points.length; i++) {
         let e = clustersEuclidean[i];
@@ -158,7 +158,7 @@ function drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChe
         if (e === m && m === c) drawPoint(points[i][0], points[i][1], colors[e % colors.length]);
         else {
             drawPoint(points[i][0], points[i][1], 'black', i + 1);
-            document.getElementById('points-info').value += `Point ${i+1} (${Math.floor(points[i][0])}; ${Math.floor(points[i][1])}) - ${e+1}:${m+1}:${c+1}\n`;
+            document.getElementById('points-info').value += `Point ${i+1} (${Math.floor(points[i][0])}; ${Math.floor(points[i][1])}) - ${colors[e]}:${colors[m]}:${colors[c]}\n`;
         }
     }
 }

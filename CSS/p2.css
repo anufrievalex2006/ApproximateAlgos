@@ -44,6 +44,7 @@ body {
 #points-info {
     width: 400px;
     min-height: 150px;
+    resize: none;
 }
 #canv {
     border: 1px solid black;
@@ -71,5 +72,6 @@ input {
     padding: 15px;
 }
 #clear {
-    margin-left: 10px;
+    background-color: firebrick;
+    color: white;
 }
