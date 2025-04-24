@@ -19,8 +19,12 @@ function generateKPoints() {
     clearMap();
     let k = parseInt(document.getElementById('kGener').value);
     for (let i = 0; i < k; i++) {
-        let x = Math.floor(Math.random() * (canvas.width - 40)) + 20;
-        let y = Math.floor(Math.random() * (canvas.height - 40)) + 20;
+        let x, y;
+        do {
+            x = Math.floor(Math.random() * (canvas.width - 40)) + 20;
+            y = Math.floor(Math.random() * (canvas.height - 40)) + 20;
+        }
+        while (points.includes([x, y]));
         points.push([x, y]);
         drawPoint(x, y, 'black');
     }
