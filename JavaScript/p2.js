@@ -1,18 +1,15 @@
 let canvas = document.getElementById('canv');
 let ctx = canvas.getContext('2d');
 let points = [];
+const textarea = document.getElementById('points-info');
+let kColors = 0;
 const colors = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'brown', 'gray', 'lime'];
 
-function drawPoint(x, y, color, label = '') {
+function drawPoint(x, y, color) {
     ctx.beginPath();
     ctx.arc(x, y, 5, 0, 2 * Math.PI);
     ctx.fillStyle = color;
     ctx.fill();
-    if (label) {
-        ctx.fillStyle = 'black';
-        ctx.font = '10px Arial';
-        ctx.fillText(label, x + 5, y + 10);
-    }
 }
 
 function generateKPoints() {
@@ -72,6 +69,11 @@ function clusterize() {
     let k = parseInt(document.getElementById('kClusters').value);
 
     k = Math.min(points.length, k);
+    kColors = Math.min(k, 10);
+    textarea.value = 'Euclidean-Manhattan-Chebyshev\n';
+    for (let i = 0; i < kColors; i++) 
+        textarea.value += `${i + 1} - ${colors[i]}\n`;
+    
     let clustersEuclidean = kMeans(points, k, euclideanDist);
     let clustersManhattan = kMeans(points, k, manhattanDist);
     let clustersChebyshev = kMeans(points, k, chebyshevDist);
@@ -82,6 +84,10 @@ function clusterizeEuclidean() {
     let k = parseInt(document.getElementById('kClusters').value);
 
     k = Math.min(points.length, k);
+    textarea.value = 'Euclidean-Manhattan-Chebyshev\n';
+    for (let i = 0; i < kColors; i++) 
+        textarea.value += `${i + 1} - ${colors[i]}\n`;
+
     let clusters = kMeans(points, k, euclideanDist);
     drawClusters(clusters);
 }
@@ -90,6 +96,10 @@ function clusterizeManhattan() {
     let k = parseInt(document.getElementById('kClusters').value);
 
     k = Math.min(points.length, k);
+    textarea.value = 'Euclidean-Manhattan-Chebyshev\n';
+    for (let i = 0; i < kColors; i++) 
+        textarea.value += `${i + 1} - ${colors[i]}\n`;
+
     let clusters = kMeans(points, k, manhattanDist);
     drawClusters(clusters);
 }
@@ -98,6 +108,10 @@ function clusterizeChebyshev() {
     let k = parseInt(document.getElementById('kClusters').value);
 
     k = Math.min(points.length, k);
+    textarea.value = 'Euclidean-Manhattan-Chebyshev\n';
+    for (let i = 0; i < kColors; i++) 
+        textarea.value += `${i + 1} - ${colors[i]}\n`;
+
     let clusters = kMeans(points, k, chebyshevDist);
     drawClusters(clusters);
 }
@@ -143,7 +157,6 @@ function kMeans(points, k, distFunc) {
 
 function drawClusters(clusters) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let colors = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'brown', 'gray', 'lime'];
     for (let i = 0; i < points.length; i++) {
         let c = clusters[i];
         drawPoint(points[i][0], points[i][1], colors[c % colors.length]);
@@ -152,8 +165,11 @@ function drawClusters(clusters) {
 
 function drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChebyshev) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    document.getElementById('points-info').value = 'Euclidean:Manhattan:Chebyshev\n';
-    
+    if (textarea.value === '') {
+        textarea.value = 'Euclidean-Manhattan-Chebyshev\n';
+        for (let i = 0; i < kColors; i++)
+            textarea.value += `${i + 1} - ${colors[i]}\n`;
+    }
     for (let i = 0; i < points.length; i++) {
         let e = clustersEuclidean[i];
         let m = clustersManhattan[i];
@@ -161,8 +177,10 @@ function drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChe
         
         if (e === m && m === c) drawPoint(points[i][0], points[i][1], colors[e % colors.length]);
         else {
-            drawPoint(points[i][0], points[i][1], 'black', i + 1);
-            document.getElementById('points-info').value += `Point ${i+1} (${Math.floor(points[i][0])}; ${Math.floor(points[i][1])}) - ${colors[e]}:${colors[m]}:${colors[c]}\n`;
+            drawPoint(points[i][0], points[i][1], 'black');
+            ctx.fillStyle = 'black';
+            ctx.font = '10px Arial';
+            ctx.fillText(`${e+1}-${m+1}-${c+1}`, points[i][0] + 5, points[i][1] + 10);
         }
     }
 }
