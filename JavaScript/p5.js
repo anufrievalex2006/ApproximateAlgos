@@ -21,15 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
         let lines = txt.trim().split('\n');
         let headers = lines[0].split(',').map(h => h.trim());
         let data = [];
-        for (let i = 1; i < lines.length; i++) {
-            if (!lines[i].trim()) continue;
+        for (const line of lines.slice(1)) {
+            if (!line.trim()) continue;
 
-            let vals = lines[i].split(',').map(x => x.trim());
+            let vals = line.split(',').map(x => x.trim());
             let entry = {};
 
-            headers.forEach((header, i) => {
-                entry[header] = vals[i];
-            });
+            for (let i = 0; i < headers.length; i++)
+                entry[headers[i]] = vals[i];
+            
             data.push(entry);
         }
         return {headers, data};
@@ -51,13 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             targetAttr = headers.at(-1);
             attrs = headers.slice(0, -1);
-
             decisionTree = buildDecisionTree(data, attrs, targetAttr);
             visualizeTree(decisionTree);
 
             treeSection.style.display = 'block';
             testSection.style.display = 'block';
-
             resultSection.style.display = 'none';
         }
         catch (error) {
@@ -66,7 +64,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function buildDecisionTree(data, atts, target) {
+    function findMostCommonValue(data) {
+        let valueCounts = {};
+        for (const x of data) {
+            let val = x[targetAttr];
+            valueCounts[val] = (valueCounts[val] || 0) + 1;
+        }
+        let mostCommon = null;
+        let mx = 0;
+        for (const [val, k] of Object.entries(valueCounts)) {
+            if (k > mx) {
+                mx = k;
+                mostCommon = val;
+            }
+        }
+        return mostCommon;
+    }
+
+    function buildDecisionTree(data, attrs, targetAttr) {
         let targetVals = [...new Set(data.map(x => x[targetAttr]))];
 
         if (targetVals.length === 1) {
@@ -76,22 +91,9 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
         if (attrs.length === 0) {
-            let valueCounts = {};
-            data.forEach(x => {
-                let val = x[targetAttr];
-                valueCounts[val] = (valueCounts[val] || 0) + 1;
-            });
-            let mostCommon = null;
-            let mx = 0;
-            for ([val, k] of Object.entries(valueCounts)) {
-                if (k > mx) {
-                    mx = k;
-                    mostCommon = val;
-                }
-            }
             return {
                 type: 'leaf',
-                value: mostCommon
+                value: findMostCommonValue(data)
             };
         }
         let bestAttr = findBestAttribute(data, attrs, targetAttr);
@@ -102,32 +104,19 @@ document.addEventListener('DOMContentLoaded', function() {
             branches: {}
         };
         let attrVals = [...new Set(data.map(x => x[bestAttr]))];
-        attrVals.forEach(val => {
+        for (const val of attrVals) {
             let filteredData = data.filter(x => x[bestAttr] === val);
             if (filteredData.length === 0) {
-                let valueCounts = {};
-                data.forEach(x => {
-                    let targetValue = x[targetAttr];
-                    valueCounts[targetValue] = (valueCounts[targetValue] || 0) + 1;
-                });
-                let mostCommon = null;
-                let mx = 0;
-                for ([targetVal, k] of Object.entries(valueCounts)) {
-                    if (k > mx) {
-                        mx = k;
-                        mostCommon = targetVal;
-                    }
-                }
                 node.branches[val] = {
                     type: 'leaf',
-                    value: mostCommon
+                    value: findMostCommonValue(data)
                 };
             }
             else {
                 let remainingAttrs = attrs.filter(a => a !== bestAttr);
                 node.branches[val] = buildDecisionTree(filteredData, remainingAttrs, targetAttr);
             }
-        });
+        }
         return node;
     }
 
@@ -136,13 +125,13 @@ document.addEventListener('DOMContentLoaded', function() {
         let maxInfoGain = -Infinity;
         let bestAttr = null;
 
-        attrs.forEach(a => {
+        for (const a of attrs) {
             let infoGain = calculateInfoGain(data, a, targetAttr, entropyBeforeSplit);
             if (infoGain > maxInfoGain) {
                 maxInfoGain = infoGain;
                 bestAttr = a;
             }
-        });
+        }
         return bestAttr;
     }
 
@@ -150,12 +139,13 @@ document.addEventListener('DOMContentLoaded', function() {
         let valueCounts = {};
         let total = data.length;
 
-        data.forEach(x => {
+        for (const x of data) {
             let value = x[targetAttr];
             valueCounts[value] = (valueCounts[value] || 0) + 1;
-        });
+        }
+
         let entropy = 0;
-        for (count of Object.values(valueCounts)) {
+        for (const count of Object.values(valueCounts)) {
             let prob = count / total;
             entropy -= prob * Math.log2(prob);
         }
@@ -167,13 +157,13 @@ document.addEventListener('DOMContentLoaded', function() {
         let total = data.length;
         let entropyAfterSplit = 0;
 
-        attrVals.forEach(val => {
+        for (const val of attrVals) {
             let filteredData = data.filter(x => x[attr] === val);
             let proportion = filteredData.length / total;
             
             let entropy = calculateEntropy(filteredData, targetAttr);
             entropyAfterSplit += proportion * entropy;
-        });
+        }
         return entropyBeforeSplit - entropyAfterSplit;
     }
 
@@ -231,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
             branchesContainer.style.marginTop = '10px';
             branchesContainer.style.gap = '5px';
 
-            for ([val, child] of Object.entries(node.branches)) {
+            for (const [val, child] of Object.entries(node.branches)) {
                 let childElem = createTreeNode(child, nodeElem.id, val);
                 branchesContainer.appendChild(childElem);
             }
@@ -255,14 +245,14 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             let testRows = testData.split('\n');
             let testRes = [];
-            for (let row of testRows) {
+            for (const row of testRows) {
                 if (!row.trim()) continue;
 
                 let vals = row.split(',').map(x => x.trim());
                 let testInstance = {};
-                attrs.forEach((a, i) => {
-                    if (i < vals.length) testInstance[a] = vals[i];
-                });
+                for (let i = 0; i < attrs.length; i++)
+                    if (i < vals.length) testInstance[attrs[i]] = vals[i];
+                
                 let {decision, path} = classifyInstance(testInstance, decisionTree);
                 testRes.push({
                     instance: testInstance, decision, path
@@ -300,12 +290,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function displayDecisionPath(res) {
         decisionPathElem.innerHTML = '<h3>Decision Path: </h3>';
-        res.path.forEach((step, i) => {
+        for (let i = 0; i < res.path.length; i++) {
+            let step = res.path[i];
             let stepElem = document.createElement('div');
             stepElem.className = 'path-step';
             stepElem.textContent = `Step ${i + 1}: Check "${step.attr}" = "${step.value}"`;
             decisionPathElem.appendChild(stepElem);
-        });
+        }
         finalDecisionElem.textContent = `Final Decision: ${res.decision}`;
     }
 });

@@ -42,6 +42,9 @@ h2 {
 .section {
     margin-bottom: 15px;
 }
+#tree-section, #test-section, #result {
+    display: none;
+}
 .info {
     margin-bottom: 10px;
     color: gray;

@@ -18,20 +18,18 @@
             <div class="section">
                 <h2>Enter Training CSV-Data: (last column is the decision)</h2>
                 <textarea id="training-data"></textarea>
-                <div class="controls">
-                    <button id="buildtree">Build Decision Tree</button>
-                </div>
+                <button id="buildtree">Build Decision Tree</button>
             </div>
-            <div class="section" id="tree-section" style="display: none">
+            <div class="section" id="tree-section">
                 <h2>Your decision tree is here:</h2>
                 <div id="tree-visualization" class="tree-container"></div>
             </div>
-            <div class="section" id="test-section" style="display: none">
+            <div class="section" id="test-section">
                 <h2>Enter CSV-Data Test (without header and decision)</h2>
                 <textarea id="test-data"></textarea>
                 <button id="runtest">Run Test</button>
             </div>
-            <div class="section" id="result" style="display: none">
+            <div class="section" id="result">
                 <div id="decision-path" class="decision-path"></div>
                 <div id="final-decision" class="final-decision"></div>
             </div>

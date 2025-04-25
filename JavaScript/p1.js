@@ -1,3 +1,5 @@
+const inputSize = document.getElementById('mapSize');
+
 let mode = '';
 let start = null, end = null;
 let mapData = [];
@@ -5,9 +7,9 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 let isPathfinding = false, shouldBreak = false;
 
 async function aStar(start, end) {
-    let cells = document.querySelectorAll('.cell');
+    const cells = document.querySelectorAll('.cell');
     let queue = [start], visitedCells = new Set();
-    let key = pos => `${pos.row},${pos.col}`;
+    const key = pos => `${pos.row},${pos.col}`;
     let cameFrom = {};
 
     function heuristicDist(a, b) {
@@ -62,7 +64,7 @@ async function aStar(start, end) {
         queue.splice(curPos, 1);
         visitedCells.add(key(cur));
 
-        let dirs = [
+        const dirs = [
             {row: -1, col: 0},
             {row: 1, col: 0},
             {row: 0, col: -1},
@@ -82,8 +84,8 @@ async function aStar(start, end) {
         }
         await delay(20);
         if (shouldBreak) {
-            for (let i = 0; i < cells.length; i++)
-                cells[i].classList.remove('visited', 'considering', 'current', 'path');
+            for (let c of cells)
+                c.classList.remove('visited', 'considering', 'current', 'path');
             break;
         }
 
@@ -121,13 +123,18 @@ async function aStar(start, end) {
 }
 
 function generateMaze() {
-    let size = parseInt(document.getElementById('mapSize').value);
-    if (size > 100) {
-        alert('Size should not be more than 100!');
+    if (inputSize.value === '') {
+        alert('You should enter the correct size of a grid (2-100).');
+        return;
+    }
+
+    const size = parseInt(inputSize.value);
+    if (size > 100 || size < 2) {
+        alert('Size should be valid (2-100)!');
         return;
     }
     generateMap();
-    let cells = document.querySelectorAll('.cell');
+    const cells = document.querySelectorAll('.cell');
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < size; j++) {
             mapData[i][j] = 1;
@@ -238,23 +245,29 @@ function generateMaze() {
 }
 
 function generateMap() {
-    let size = parseInt(document.getElementById('mapSize').value);
-    if (size > 100) {
-        alert('Size should not be more than 100!');
+    if (inputSize.value === '') {
+        alert('You should enter the correct size of a grid (2-100).');
         return;
     }
-    let map = document.getElementById('map');
+
+    const size = parseInt(inputSize.value);
+    if (size > 100 || size < 2) {
+        alert('Size should be valid (2-100)!');
+        return;
+    }
+
+    const map = document.getElementById('map');
     map.innerHTML = '';
     mapData = [];
     document.getElementById('res').textContent = `${size}x${size} field`;
     
-    let table = document.createElement('table');
+    const table = document.createElement('table');
     table.className = 'map-table';
     for (let i = 0; i < size; i++) {
         let row = [];
-        let tableRow = document.createElement('tr');
+        const tableRow = document.createElement('tr');
         for (let j = 0; j < size; j++) {
-            let cell = document.createElement('td');
+            const cell = document.createElement('td');
             cell.className = 'cell';
             const cellSize = Math.floor(250 / size);
             cell.style.width = `${cellSize}px`;
@@ -273,9 +286,9 @@ function generateMap() {
 function handleClick(row, col) {
     if (isPathfinding) return;
     clearPath();
-    let cells = document.querySelectorAll('.cell');
-    let i = row * mapData.length + col;
-    let cell = cells[i];
+    const cells = document.querySelectorAll('.cell');
+    const i = row * mapData.length + col;
+    const cell = cells[i];
     
     switch (mode) {
         case 'start':
@@ -326,14 +339,15 @@ async function findPath() {
     
     isPathfinding = true;
     shouldBreak = false;
-    let startPos = {
+    const startPos = {
         row: Math.floor(Array.from(document.querySelectorAll('.cell')).indexOf(start) / mapData.length),
         col: Array.from(document.querySelectorAll('.cell')).indexOf(start) % mapData.length
     };
-    let endPos = {
+    const endPos = {
         row: Math.floor(Array.from(document.querySelectorAll('.cell')).indexOf(end) / mapData.length),
         col: Array.from(document.querySelectorAll('.cell')).indexOf(end) % mapData.length
     };
+    
     let path = await aStar(startPos, endPos);
     if (!shouldBreak) {
         if (path) alert('Path found!');
@@ -344,7 +358,7 @@ async function findPath() {
 
 function clearPath() {
     shouldBreak = true;
-    let cells = document.querySelectorAll('.cell');
+    const cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
         cell.classList.remove('path', 'considering', 'current', 'visited');           
     });
@@ -355,7 +369,7 @@ function clearMap() {
     start = null, end = null;
     mode = '';
     document.getElementById('mode').textContent = 'Selected Mode: None';
-    let cells = document.querySelectorAll('.cell');
+    const cells = document.querySelectorAll('.cell');
     for (let i = 0; i < cells.length; i++) {
         cells[i].classList.remove('start', 'end', 'wall', 'path', 'considering', 'current', 'visited');
         mapData[Math.floor(i / mapData.length)][i % mapData.length] = 0;

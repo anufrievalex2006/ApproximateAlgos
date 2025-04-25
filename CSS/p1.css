@@ -51,34 +51,34 @@ body {
 .controls {
     margin: 10px 0;
 }
-#set-start {
+#mode-choose {
+    color: white;
+}
+#mode-choose:active {
+    color: black;
+}
+.set-start {
     background-color: green;
-    color: white;
 }
-#set-start:active {
+.set-start:active {
     background-color: lime;
-    color: black;
 }
-#set-end {
+.set-end {
     background-color: firebrick;
-    color: white;
 }
-#set-end:active {
+.set-end:active {
     background-color: red;
-    color: black;
 }
-#set-wall {
+.set-wall {
     background-color: black;
-    color: white;
 }
-#set-wall:active {
+.set-wall:active {
     background-color: gray;
-    color: black;
 }
-#find-path {
+.find-path {
     background-color: yellow;
 }
-#find-path:active {
+.find-path:active {
     background-color: lightyellow;
 }
 .map {

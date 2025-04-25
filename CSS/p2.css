@@ -31,6 +31,9 @@
 body {
     font-size: 32px;
 }
+.body-div {
+    display: flex;
+}
 .container {
     display: flex;
     flex-direction: column;
