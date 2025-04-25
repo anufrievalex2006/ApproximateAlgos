@@ -256,7 +256,7 @@ function generateMap() {
         for (let j = 0; j < size; j++) {
             let cell = document.createElement('td');
             cell.className = 'cell';
-            const cellSize = (size > 30) ? Math.floor(1400 / size) : 50;
+            const cellSize = Math.floor(250 / size);
             cell.style.width = `${cellSize}px`;
             cell.style.height = `${cellSize}px`;
             cell.onclick = () => handleClick(i, j);
@@ -298,8 +298,8 @@ function handleClick(row, col) {
             let tmpEnd = end;
             if (end) {
                 end.classList.remove('end');
-                mapData[Math.floor(Array.from(cells).indexOf(start) / mapData.length)]
-                       [Array.from(cells).indexOf(start) % mapData.length] = 0;
+                mapData[Math.floor(Array.from(cells).indexOf(end) / mapData.length)]
+                       [Array.from(cells).indexOf(end) % mapData.length] = 0;
             }
             if (cell !== tmpEnd) {
                 cell.classList.add('end');
