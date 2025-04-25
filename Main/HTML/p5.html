@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Decision Tree</title>
+        <link rel="stylesheet" href="../CSS/p5.css">
+    </head>
+    <body>
+        <header class="header">
+            <div class="top-buttons">
+                <a class="button" href="#../HTML/main.html">Меню</a>
+                <a href="../HTML/p1.html" class="button">А*</a>
+                <a href="../HTML/p2.html" class="button">Алгоритм кластеризации</a>
+                <a href="../HTML/p3.html" class="button">Генетический алгоритм</a>
+                <a href="../HTML/p4.html" class="button">Муравьиный алгоритм</a>
+                <a href="../HTML/p5.html" class="button">Дерево решений</a>
+                <a href="../HTML/p6.html" class="button">Нейронная сеть</a>
+            </div>
+        </header>
+        <div class="main-content">
+            <div class="center">
+                <h1>Дерево решений</h1>
+                <h2>Введите данные CSV-обучения: (последний столбец — решение)</h2>
+                <textarea id="training-data"></textarea>
+                <div class="controls">
+                    <button id="buildtree" class="button">Построить дерево решений</button>
+                </div>
+            </div>
+        <div class="container">
+            <div class="section" id="tree-section" style="display: none">
+                <h2>Ваше дерево решений здесь:</h2>
+                <div id="tree-visualization" class="tree-container"></div>
+            </div>
+            <div class="section" id="test-section" style="display: none">
+                <h2>Введите CSV-Data Test (без заголовка и решения)</h2>
+                <textarea id="test-data"></textarea>
+                <button id="runtest" class="button">Запустить тест</button>
+            </div>
+            <div class="section" id="result" style="display: none">
+                <div id="decision-path" class="decision-path"></div>
+                <div id="final-decision" class="final-decision"></div>
+            </div>
+        </div>
+        <script src="../JavaScript/p5.js"></script>
+    </body>
+</html>

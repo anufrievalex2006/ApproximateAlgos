@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    top: 40px;
+    min-height: 100vh;
+    background-color: #1a1139;
+    font-family: sans-serif;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  h1 {
+    font-size: 36px;
+    color: white; 
+    margin-top: 50px;
+    text-align: center; 
+  }
+
+  p {
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    color: #ffffff;
+    font-style: italic; 
+    text-align: center; 
+  }
+
+
+  .header {
+    margin-top: 1px;
+    height: 200px; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  
+  .button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+    
+  }
+  
+  .button {
+    font-family: 'Arial', sans-serif;
+    background-color: #2C5F90;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0 0 10px #2C5F90;
+    padding: 0 20px;
+    width: 100%;
+    max-width: 300px; 
+    height: 30%;
+    min-height: 100px;
+    max-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none;
+  }
+  
+  button {
+    transition: all 0.3s ease;
+  }
+  
+  button::before {
+    transition: all 0.3s ease;
+    position: absolute;
+  }
+
+  .button:hover {
+    background-color: #0e3356;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px #283c9d;
+  }
+  
+  button::after {
+    transition: all 0.3s ease;
+    position: absolute;
+    content: ' ';
+  }
+  
+  @media (max-width: 1200px) {
+    .button-container {
+      justify-content: space-between;
+    }
+  
+    .button {
+      max-width: 48%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .button-container {
+      justify-content: center;
+    }
+  
+    .button {
+      max-width: 90%;
+    }
+  }

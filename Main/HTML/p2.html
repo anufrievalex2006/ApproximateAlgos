@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Clustering Algorithm</title>
+        <link href="../CSS/p2.css" rel="stylesheet">
+    </head>
+    <body>
+        <header class="header">
+            <div class="top-buttons">
+                <a class="button" href="#../HTML/main.html">Меню</a>
+                <a href="../HTML/p1.html" class="button">А*</a>
+                <a href="../HTML/p2.html" class="button">Алгоритм кластеризации</a>
+                <a href="../HTML/p3.html" class="button">Генетический алгоритм</a>
+                <a href="../HTML/p4.html" class="button">Муравьиный алгоритм</a>
+                <a href="../HTML/p5.html" class="button">Дерево решений</a>
+                <a href="../HTML/p6.html" class="button">Нейронная сеть</a>
+            </div>
+      </header>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+        <h1>Алгоритм кластеризации</h1>
+            <div style="display: flex; gap: 20px;">
+                <div class="container">
+                    <textarea id="points-info" readonly></textarea>
+                    <canvas id="canv" width="500" height="500"></canvas>
+                </div>
+                <div class="container">
+                    <div class="metric-buttons">
+                        <label for="kClusters">Количество кластеров</label>
+                        <input type="number" id="kClusters" value="2" min="1" max="10">
+                        <button onclick="clusterize()">Начать кластеризацию</button>
+                        <input type="number" id="kGener" placeholder="Num to generate" min="1" value="10">
+                        <button onclick="generateKPoints()">Сгенерировать точки</button>
+                        <button id="clear" onclick="clearMap()">Очистить</button>
+                            <button onclick="clusterizeEuclidean()">Евклидово расстояние</button>
+                            <button onclick="clusterizeManhattan()">Манхэттенское расстояние</button>
+                            <button onclick="clusterizeChebyshev()">Чебышевское расстояние</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <script src="../JavaScript/p2.js"></script>
+    </body>
+</html>
