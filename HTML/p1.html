@@ -5,34 +5,38 @@
         <link href="../CSS/p1.css" rel="stylesheet">
     </head>
     <body>
-        <div class="panel">
-            <a id="a-currentb" href="#">A*</a>
-            <a href="p2.html">Clustering</a>
-            <a id="a-locked" href="#">Genetic</a>
-            <a href="p4.html">Ant</a>
-            <a href="p5.html">Decision Tree</a>
-            <a id="a-locked" href="#">AI</a>
-            <a href="main.html">Main Menu</a>
-        </div>
-        <p id="mode">Selected Mode: None</p>
-        <div class="container">
-            <div class="settings">
-                <label for="mapSize">Map Size</label>
-                <input type="number" id="mapSize" value="5" min="2" max="100">
-                <button onclick="generateMap()">Generate Empty Map</button>
-                <button onclick="generateMaze()">Generate Maze</button>
-                <div class="controls">
-                    <button id="mode-choose" class="set-start" onclick="setStart()">Set Start Mode</button>
-                    <button id="mode-choose" class="set-end" onclick="setEnd()">Set End Mode</button>
-                    <button id="mode-choose" class="set-wall" onclick="setWall()">Set Wall Mode</button>
-                    <button class="find-path" onclick="findPath()">Find Path</button>
-                    <button onclick="clearPath()">Clear Path</button>
-                    <button onclick="clearMap()">Clear Map</button>
+        <header class="header">
+            <div class="top-buttons">
+                <a class="button" href="../HTML/main.html">Меню</a>
+                <a href="#" class="button">А*</a>
+                <a href="p2.html" class="button">Алгоритм кластеризации</a>
+                <a href="p3.html" class="button">Генетический алгоритм</a>
+                <a href="p4.html" class="button">Муравьиный алгоритм</a>
+                <a href="p5.html" class="button">Дерево решений</a>
+                <a href="../nn/index.html" class="button">Нейронная сеть</a>
+            </div>
+        </header>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+            <p id="mode">Selected Mode: None</p>
+            <div class="container">
+                <div class="settings">
+                    <label for="mapSize">Map Size</label>
+                    <input type="number" id="mapSize" value="5" min="2" max="100">
+                    <button onclick="generateMap()">Generate Empty Map</button>
+                    <button onclick="generateMaze()">Generate Maze</button>
+                    <div class="controls">
+                        <button onclick="setStart()">Set Start Mode</button>
+                        <button onclick="setEnd()">Set End Mode</button>
+                        <button onclick="setWall()">Set Wall Mode</button>
+                        <button onclick="findPath()">Find Path</button>
+                        <button onclick="clearPath()">Clear Path</button>
+                        <button onclick="clearMap()">Clear Map</button>
+                    </div>
                 </div>
             </div>
-            <div id="map" class="map"></div>
-            <div id="res" class="res"></div>
         </div>
+        <div id="map" class="map"></div>
+        <div id="res" class="res"></div>
         <script src="../JavaScript/p1.js"></script>
     </body>
 </html>

@@ -5,31 +5,37 @@
         <link rel="stylesheet" href="../CSS/p5.css">
     </head>
     <body>
-        <div class="panel">
-            <a href="p1.html">A*</a>
-            <a href="p2.html">Clustering</a>
-            <a id="a-locked" href="#">Genetic</a>
-            <a href="p4.html">Ant</a>
-            <a id="a-current" href="#">Decision Tree</a>
-            <a id="a-locked" href="#">AI</a>
-            <a href="main.html">Main Menu</a>
-        </div>
-        <div class="container">
-            <div class="section">
-                <h2>Enter Training CSV-Data: (last column is the decision)</h2>
-                <textarea id="training-data"></textarea>
-                <button id="buildtree">Build Decision Tree</button>
+        <header class="header">
+            <div class="top-buttons">
+                <a class="button" href="../HTML/main.html">Меню</a>
+                <a href="p1.html" class="button">А*</a>
+                <a href="p2.html" class="button">Алгоритм кластеризации</a>
+                <a href="p3.html" class="button">Генетический алгоритм</a>
+                <a href="p4.html" class="button">Муравьиный алгоритм</a>
+                <a href="#" class="button">Дерево решений</a>
+                <a href="../nn/index.html" class="button">Нейронная сеть</a>
             </div>
-            <div class="section" id="tree-section">
-                <h2>Your decision tree is here:</h2>
+        </header>
+        <div class="main-content">
+            <div class="center">
+                <h1>Дерево решений</h1>
+                <h2>Введите данные CSV-обучения: (последний столбец — решение)</h2>
+                <textarea id="training-data"></textarea>
+                <div class="controls">
+                    <button id="buildtree" class="button">Построить дерево решений</button>
+                </div>
+            </div>
+        <div class="container">
+            <div class="section" id="tree-section" style="display: none">
+                <h2>Ваше дерево решений здесь:</h2>
                 <div id="tree-visualization" class="tree-container"></div>
             </div>
-            <div class="section" id="test-section">
-                <h2>Enter CSV-Data Test (without header and decision)</h2>
+            <div class="section" id="test-section" style="display: none">
+                <h2>Введите CSV-Data Test (без заголовка и решения)</h2>
                 <textarea id="test-data"></textarea>
-                <button id="runtest">Run Test</button>
+                <button id="runtest" class="button">Запустить тест</button>
             </div>
-            <div class="section" id="result">
+            <div class="section" id="result" style="display: none">
                 <div id="decision-path" class="decision-path"></div>
                 <div id="final-decision" class="final-decision"></div>
             </div>

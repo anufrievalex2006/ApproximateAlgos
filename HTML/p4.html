@@ -5,24 +5,34 @@
         <link href="../CSS/p4.css" rel="stylesheet">
     </head>
     <body>
-        <div class="panel">
-            <a href="p1.html">A*</a>
-            <a href="p2.html">Clustering</a>
-            <a id="a-locked" href="#">Genetic</a>
-            <a id="a-current" href="#">Ant</a>
-            <a href="p5.html">Decision Tree</a>
-            <a id="a-locked" href="#">AI</a>
-            <a href="main.html">Main Menu</a>
-        </div>
-        <div class="controls">
-            <button onclick="findPath()">Start Ant Algorithm</button>
-        </div>
-        <canvas id="graphCanvas" width="800" height="600"></canvas>
-        <div class="controls">
-            <input type="number" id="kPoints" value="10" min="2" max="500" placeholder="Num of points">
-            <button onclick="generatePoints()">Generate points</button>
-            <button onclick="clearMap()">Reset</button>
-        </div>
+        <header class="header">
+            <div class="top-buttons">
+                <a class="button" href="../HTML/main.html">Меню</a>
+                <a href="p1.html" class="button">А*</a>
+                <a href="p2.html" class="button">Алгоритм кластеризации</a>
+                <a href="p3.html" class="button">Генетический алгоритм</a>
+                <a href="#" class="button">Муравьиный алгоритм</a>
+                <a href="p5.html" class="button">Дерево решений</a>
+                <a href="../nn/index.html" class="button">Нейронная сеть</a>
+            </div>
+        </header>
+        <div class="main-content">
+            <div class="center">
+              <h1>Муравьиный алгоритм</h1>
+              <canvas id="graphCanvas" width="500" height="500"></canvas>
+            </div>
+            <div class="side-buttons">
+                <button id="startButton" class="button">Запустить алгоритм</button>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span id="minValue">1</span>
+                    <input type="range" id="cityCountSlider" min="1" max="500" value="1" step="1">
+                    <span id="maxValue">500</span>
+                </div>
+                <p>Количество точек: <span id="cityCountDisplay">1</span></p>
+                <button id="generateButton" class="button">Сгенерировать точки</button>
+                <button class="button" onclick="clearMap()">Очистить</button>
+            </div>
+          </div>
         <script src="../JavaScript/p4.js"></script>
     </body>
 </html>

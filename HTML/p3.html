@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нейронная сеть</title>
+    <link rel="stylesheet" href="../CSS/p3.css">
+</head>
+<header class="header">
+      <div class="top-buttons">
+        <a class="button" href="main.html">Меню</a>
+        <a class="button" href="p1.html">А*</a>
+        <a class="button" href="p2.html">Алгоритм кластеризации</a>
+        <a class="button" href="#">Генетический алгоритм</a>
+        <a class="button" href="p4.html">Муравьиный алгоритм</a>
+        <a class="button" href="p5.html">Дерево решений</a>
+        <a class="button" href="../nn/index.html">Нейронная сеть</a>
+      </div>
+</header>
+<body>
+      <div class="main-content">
+        <div class="center">
+            <h1>Генетический алгоритм</h1>
+            <canvas id="canva" width="500" height="500"></canvas>
+        </div>
+        <div class="side-buttons">
+            <button id="startButton" class="button">Запустить алгоритм</button>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span id="minValue">1</span>
+                <input type="range" id="cityCountSlider" min="1" max="150" value="1" step="1">
+                <span id="maxValue">150</span>
+            </div>
+            <p>Количество точек: <span id="cityCountDisplay">1</span></p>
+            <button id="generateButton" class="button">Сгенерировать точки</button>
+            <button id="stopButton" class="button">Остановить алгоритм</button>
+            <button id="clearButton" class="button">Очистить</button>
+        </div>
+      </div>
+    </div> 
+    <script src="../JavaScript/p3.js" defer></script>
+</body>
+</html>

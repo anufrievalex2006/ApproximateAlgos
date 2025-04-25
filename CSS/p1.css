@@ -1,48 +1,78 @@
-.panel {
-    display: inline-flex;
-    background-color: lightgray;
-    padding: 15px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.panel a{
-    font-size: 32px;
-    background-color: gray;
-    gap: 10px;
-    margin: 0 5px;
-    padding: 10px;
-    text-decoration: none;
-    color: white;
-}
-.panel a:hover{
-    background-color: gold;
-    color: green;
-}
-#a-current {
-    background-color: cyan;
-    color: red;
-}
-#a-currentb {
-    background: linear-gradient(to right, gold, cyan);
-    color: black;
-}
-#a-locked {
-    background-color: firebrick;
-    color: white;
-}
+  
 body {
-    font-size: 24px;
+    min-height: 100vh; 
+    background-color: #1a1139; 
+    font-family: sans-serif; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    color: white;
+}
+  
+header {
+    width: 100%; 
+    height: 70px;
+    background-color: #0c052b; 
+    top: 0; 
+    left: 0;
+    right: 0;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    box-shadow: 0 10px 10px rgba(3, 5, 34, 0.368); 
+}
+.top-buttons {
+    display: inline-flex;
+    justify-content: center;
+    gap: 10px;
+}
+.top-buttons .button {
+    font-family: 'Arial', sans-serif; 
+    margin-top: 10px;
+    background-color: #2C5F90; 
+    border-radius: 10px; 
+    color: white; 
+    box-shadow: 0 0 10px #2C5F90; 
+    padding: 0 20px;
+    width: 150px; 
+    height: 50px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 16px; 
+    font-weight: normal;
+    text-align: center;
+    box-sizing: border-box; 
+    cursor: pointer;
+    transition: all 0.3s ease; 
+    border: none; 
+    text-decoration: none; 
+}
+  
+.button:hover {
+    background-color: #0e3356;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px #283c9d;
 }
 #mode {
-    font-weight: bold;
-}
-.head {
-    display: flex;
-    flex-direction: row;
+    margin: 0;
+    color: #98A9E3;
+    text-align: center; 
+    font-size: 24px;
+    margin-top: 20px;  
+    margin-bottom: 20px;
 }
 .container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+    justify-content: space-between; 
+    align-items: flex-start; 
+    gap: 20px;
+    margin-top: 20px; 
 }
 .settings {
     margin-bottom: 20px;
@@ -51,35 +81,67 @@ body {
 .controls {
     margin: 10px 0;
 }
-#mode-choose {
-    color: white;
-}
-#mode-choose:active {
+.controls button{
+    background-color: lightgray;
     color: black;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 0 10px #2C5F90;
 }
-.set-start {
-    background-color: green;
+.controls button:hover {
+    background-color: #0e3356;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px #283c9d;
 }
-.set-start:active {
-    background-color: lime;
+button {
+    height: 40px; 
+    background-color: #2C5F90;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 0 10px #2C5F90;
 }
-.set-end {
-    background-color: firebrick;
+button:hover {
+    background-color: #0e3356;
+    color: white;
+    box-shadow: 0 5px 20px #283c9d;
 }
-.set-end:active {
-    background-color: red;
+input {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}  
+input[type="number"] {
+    text-align: center;  
+    padding: 8px;
+    width: 200px;            
+    border-radius: 5px;     
+    border: 1px solid #ccc;  
+    background-color: #fff;  
 }
-.set-wall {
-    background-color: black;
+input:focus, button:focus {
+    outline: none;
 }
-.set-wall:active {
-    background-color: gray;
-}
-.find-path {
-    background-color: yellow;
-}
-.find-path:active {
-    background-color: lightyellow;
+label {
+    font-size: 16px;       
+    color: #ffffff;       
+    margin-bottom: 10px;   
+    text-align: center;     
+    width: 100%;        
 }
 .map {
     display: grid;
@@ -116,14 +178,4 @@ body {
 .res {
     margin-top: 20px;
     font-weight: bold;
-}
-button {
-    font-size: 22px;
-    margin: 0 5px;
-    padding: 5px 10px;
-}
-input {
-    font-size: 22px;
-    margin: 0 10px;
-    padding: 5px 5px;
 }
