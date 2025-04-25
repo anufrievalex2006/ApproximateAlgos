@@ -1,5 +1,35 @@
-body {
+.panel {
+    display: inline-flex;
+    background-color: lightgray;
+    padding: 15px;
+}
+.panel a{
     font-size: 32px;
+    background-color: gray;
+    gap: 10px;
+    margin: 0 5px;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+}
+.panel a:hover{
+    background-color: gold;
+    color: green;
+}
+#a-current {
+    background-color: cyan;
+    color: red;
+}
+#a-currentb {
+    background: linear-gradient(to right, gold, cyan);
+    color: black;
+}
+#a-locked {
+    background-color: firebrick;
+    color: white;
+}
+body {
+    font-size: 24px;
 }
 #mode {
     font-weight: bold;
@@ -21,15 +51,45 @@ body {
 .controls {
     margin: 10px 0;
 }
+#mode-choose {
+    color: white;
+}
+#mode-choose:active {
+    color: black;
+}
+.set-start {
+    background-color: green;
+}
+.set-start:active {
+    background-color: lime;
+}
+.set-end {
+    background-color: firebrick;
+}
+.set-end:active {
+    background-color: red;
+}
+.set-wall {
+    background-color: black;
+}
+.set-wall:active {
+    background-color: gray;
+}
+.find-path {
+    background-color: yellow;
+}
+.find-path:active {
+    background-color: lightyellow;
+}
 .map {
     display: grid;
-    background-color: lightgray;
+    width: 650px;
+    height: 650px;
+    border: 2px solid black;
+    background-color: gray;
 }
 .cell {
-    width: 50px;
-    height: 50px;
     background-color: white;
-    border: 1px solid gray;
     cursor: pointer;
 }
 .start {
@@ -43,6 +103,15 @@ body {
 }
 .path {
     background-color: yellow;
+}
+.visited {
+    background-color: cyan;
+}
+.considering {
+    background-color: orange;
+}
+.current {
+    background-color: magenta;
 }
 .res {
     margin-top: 20px;

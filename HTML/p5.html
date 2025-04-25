@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Decision Tree</title>
+        <link rel="stylesheet" href="../CSS/p5.css">
+    </head>
+    <body>
+        <div class="panel">
+            <a href="p1.html">A*</a>
+            <a href="p2.html">Clustering</a>
+            <a id="a-locked" href="#">Genetic</a>
+            <a href="p4.html">Ant</a>
+            <a id="a-current" href="#">Decision Tree</a>
+            <a id="a-locked" href="#">AI</a>
+            <a href="main.html">Main Menu</a>
+        </div>
+        <div class="container">
+            <div class="section">
+                <h2>Enter Training CSV-Data: (last column is the decision)</h2>
+                <textarea id="training-data"></textarea>
+                <button id="buildtree">Build Decision Tree</button>
+            </div>
+            <div class="section" id="tree-section">
+                <h2>Your decision tree is here:</h2>
+                <div id="tree-visualization" class="tree-container"></div>
+            </div>
+            <div class="section" id="test-section">
+                <h2>Enter CSV-Data Test (without header and decision)</h2>
+                <textarea id="test-data"></textarea>
+                <button id="runtest">Run Test</button>
+            </div>
+            <div class="section" id="result">
+                <div id="decision-path" class="decision-path"></div>
+                <div id="final-decision" class="final-decision"></div>
+            </div>
+        </div>
+        <script src="../JavaScript/p5.js"></script>
+    </body>
+</html>

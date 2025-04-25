@@ -1,25 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <title>A* Algorithm</title>
         <link href="../CSS/p1.css" rel="stylesheet">
     </head>
     <body>
+        <div class="panel">
+            <a id="a-currentb" href="#">A*</a>
+            <a href="p2.html">Clustering</a>
+            <a id="a-locked" href="#">Genetic</a>
+            <a href="p4.html">Ant</a>
+            <a href="p5.html">Decision Tree</a>
+            <a id="a-locked" href="#">AI</a>
+            <a href="main.html">Main Menu</a>
+        </div>
         <p id="mode">Selected Mode: None</p>
         <div class="container">
             <div class="settings">
                 <label for="mapSize">Map Size</label>
-                <input type="number" id="mapSize" value="5" min="2">
-                <button onclick="generateMap()">Generate Map</button>
+                <input type="number" id="mapSize" value="5" min="2" max="100">
+                <button onclick="generateMap()">Generate Empty Map</button>
+                <button onclick="generateMaze()">Generate Maze</button>
                 <div class="controls">
-                    <button onclick="setStart()">Set Start Mode</button>
-                    <button onclick="setEnd()">Set End Mode</button>
-                    <button onclick="setWall()">Set Wall Mode</button>
+                    <button id="mode-choose" class="set-start" onclick="setStart()">Set Start Mode</button>
+                    <button id="mode-choose" class="set-end" onclick="setEnd()">Set End Mode</button>
+                    <button id="mode-choose" class="set-wall" onclick="setWall()">Set Wall Mode</button>
+                    <button class="find-path" onclick="findPath()">Find Path</button>
+                    <button onclick="clearPath()">Clear Path</button>
+                    <button onclick="clearMap()">Clear Map</button>
                 </div>
-                <button onclick="findPath()">Find Path</button>
-                <button onclick="clearPath()">Clear Path</button>
-                <button onclick="clearMap()">Clear Map</button>
-                <button style="background-color: yellow; font-weight: bold" onclick="window.location='main.html'">Back to Menu</button>
             </div>
             <div id="map" class="map"></div>
             <div id="res" class="res"></div>

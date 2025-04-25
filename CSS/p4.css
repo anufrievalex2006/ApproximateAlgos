@@ -1,0 +1,45 @@
+.panel {
+    display: inline-flex;
+    background-color: lightgray;
+    padding: 15px;
+}
+.panel a{
+    font-size: 32px;
+    background-color: gray;
+    gap: 10px;
+    margin: 0 5px;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+}
+.panel a:hover{
+    background-color: gold;
+    color: green;
+}
+#a-current {
+    background-color: cyan;
+    color: red;
+}
+#a-currentb {
+    background: linear-gradient(to right, gold, cyan);
+    color: black;
+}
+#a-locked {
+    background-color: firebrick;
+    color: white;
+}
+button {
+    font-size: 26px;
+    padding: 10px;
+}
+input {
+    font-size: 20px;
+    padding: 15px;
+}
+canvas {
+    border: 1px solid black;
+    margin: 0 10px;
+}
+.controls {
+    margin: 10px;
+}

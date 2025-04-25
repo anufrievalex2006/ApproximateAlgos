@@ -1,22 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Our Site</title>
-        <link href="../CSS/main.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="head">
-            <p>Approximate Algorithms Center</p>
-            <div id="row" class="row1">
-                <a id="link" href="p1.html">A*</a>
-                <a id="link" href="p2.html">Clusterization</a>
-                <a id="unavailable" href="#">Genetic Algorithm</a>
-            </div>
-            <div id="row" class="row2">
-                <a id="unavailable" href="#">Ant Algorithm</a>
-                <a id="unavailable" href="#">Tree Solution</a>
-                <a id="unavailable" href="#">New AI</a>
+<DOCTYPE html>
+    <html lang="ru">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Game Website</title>
+            <link rel="stylesheet" href="../CSS/main.css">
+        </head>
+        <body>
+            <style>
+                body {
+                   margin: 0;
+                }
+                .container {
+                   display: flex;
+                   flex-wrap: wrap;
+                }
+                .btn {
+                   width: 100%;
+                   min-height: 1px;
+                }
+                </style>
+              
+            <div class="wrapper">
+            <header class="container">
+                <span class="logo">logo</span>
+                <nav>
+                    <ul>
+                    <li><a href="/">Home</a></li>
+
+                    <li class="active"><a href="about.html">About us</a></li>
+                    
+                </nav>
+            </header>
+           
+            <div class="container">
+                <div class="hero--info">
+                    <h3>Выбирайте <i>любой</i> алгоритм</h3>
+                    <h1>Алгоритмы</h1>
+                    <hr>
+                    
+                    <button class="btn" onclick="window.location.href='p1.html'">A-star*</button>
+                    <button class="btn" onclick="window.location.href='p2.html'">Кластер</button>
+                    <button class="btn" onclick="window.location.href='p4.html'">Муравей</button>
+                    <button class="btn">Генетика</button>
+                    <button class="btn" onclick="window.location.href='p5.html'">Дерево</button>
+                    <button class="btn">Нейронка</button>
+                  
+                </div>
             </div>
         </div>
-    </body>
-</html>
+        </body>
+    </html>
+</DOCTYPE>
