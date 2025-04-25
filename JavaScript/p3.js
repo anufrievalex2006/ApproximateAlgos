@@ -224,6 +224,7 @@ function runGenerationStep(timestamp) {
       
         if (currentGeneration >= maxGenerations) {
             stopAlgorithm();
+            alert('Алгоритм завершён.');
             return;
         }
     }
