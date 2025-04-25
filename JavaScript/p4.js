@@ -9,6 +9,10 @@ const evaporationRate = 0.1;
 const Q = 100;   // количество феромона
 
 canvas.addEventListener('click', function(event) {
+    if (points.length >= 500) {
+        alert('Maximum number of points exceeded. (500)');
+        return;
+    }
     const rect = canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
@@ -27,6 +31,10 @@ function drawPoint(x, y, i) {
 function generatePoints() {
     clearMap();
     let k = parseInt(document.getElementById('kPoints').value);
+    if (k > 500) {
+        alert('You should put no more than 500 points!');
+        return;
+    }
     for (let i = 0; i < k; i++) {
         let x = Math.floor(Math.random() * (canvas.width - 20)) + 10;
         let y = Math.floor(Math.random() * (canvas.height - 20)) + 10;
