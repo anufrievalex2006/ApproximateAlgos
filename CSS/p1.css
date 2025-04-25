@@ -55,16 +55,31 @@ body {
     background-color: green;
     color: white;
 }
+#set-start:active {
+    background-color: lime;
+    color: black;
+}
 #set-end {
     background-color: firebrick;
     color: white;
+}
+#set-end:active {
+    background-color: red;
+    color: black;
 }
 #set-wall {
     background-color: black;
     color: white;
 }
+#set-wall:active {
+    background-color: gray;
+    color: black;
+}
 #find-path {
     background-color: yellow;
+}
+#find-path:active {
+    background-color: lightyellow;
 }
 .map {
     display: grid;

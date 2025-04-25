@@ -3,7 +3,11 @@ let ctx = canvas.getContext('2d');
 let points = [];
 const textarea = document.getElementById('points-info');
 let kColors = 0;
-const colors = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'purple', 'brown', 'gray', 'lime'];
+const colors = ['red', 'orange', 'yellow', 'green', 'cyan',
+                'blue', 'purple', 'brown', 'gray', 'lime', 
+                'magenta', 'navy', 'teal', 'maroon', 'olive',
+                'silver', 'indigo', 'coral', 'pink', 'violet', 
+                'turquoise', 'gold', 'plum', 'chocolate', 'crimson'];
 
 function drawPoint(x, y, color) {
     ctx.beginPath();
@@ -69,7 +73,11 @@ function clusterize() {
     let k = parseInt(document.getElementById('kClusters').value);
 
     k = Math.min(points.length, k);
-    kColors = Math.min(k, 10);
+    kColors = Math.min(k, colors.length);
+    if (k > kColors) {
+        alert('Maximum number of clusters exceeded (25).');
+        return;
+    }
     textarea.value = 'Euclidean-Manhattan-Chebyshev\n';
     for (let i = 0; i < kColors; i++) 
         textarea.value += `${i + 1} - ${colors[i]}\n`;
@@ -180,7 +188,7 @@ function drawDifferentClusters(clustersEuclidean, clustersManhattan, clustersChe
             drawPoint(points[i][0], points[i][1], 'black');
             ctx.fillStyle = 'black';
             ctx.font = '10px Arial';
-            ctx.fillText(`${e+1}-${m+1}-${c+1}`, points[i][0] + 5, points[i][1] + 10);
+            ctx.fillText(`${e+1}-${m+1}-${c+1}`, points[i][0] - 10, points[i][1] + 15);
         }
     }
 }
