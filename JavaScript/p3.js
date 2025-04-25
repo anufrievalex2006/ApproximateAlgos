@@ -35,6 +35,7 @@ cityCountSlider.addEventListener('input', function() {
 
 document.getElementById('generateButton').addEventListener('click', function() {
     const cityCount = parseInt(cityCountSlider.value);
+    clearCanvas();
     generateRandomCities(cityCount);
 });
 
