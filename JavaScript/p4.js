@@ -40,36 +40,10 @@ cityCountSlider.addEventListener('input', function() {
   cityCountDisplay.textContent = cityCountSlider.value;
 });
 
-document.getElementById('generateButton').addEventListener('click', function() {
-    const cityCount = parseInt(cityCountSlider.value);
-    genPoints(cityCount);
-});
-
-function genPoints() {
-    clearMap();
-    let k = parseInt(cityCountSlider.value);
-    for (let i = 0; i < k; i++) {
-        let x = Math.floor(Math.random() * (canvas.width - 20)) + 10;
-        let y = Math.floor(Math.random() * (canvas.height - 20)) + 10;
-        points.push(new Point(x, y, pIndex));
-        points[points.length - 1].draw(ctx);
-        pIndex++;
-    }
-}
-
-function generateRandomCities(numCities) {
-    cities = [];
-    for (let i = 0; i < numCities; i++) {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        cities.push({ x, y });
-    }
-    drawField();
-}
-
+document.getElementById('generateButton').addEventListener('click', generatePoints);
 function generatePoints() {
     clearMap();
-    let k = parseInt(document.getElementById('kPoints').value);
+    let k = parseInt(cityCountSlider.value);
     for (let i = 0; i < k; i++) {
         let x = Math.floor(Math.random() * (canvas.width - 20)) + 10;
         let y = Math.floor(Math.random() * (canvas.height - 20)) + 10;
@@ -173,7 +147,6 @@ function updatePheromones(paths, lengths) {
 
 function drawPath(path) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
     for (const p of points)
         p.draw(ctx);
 
