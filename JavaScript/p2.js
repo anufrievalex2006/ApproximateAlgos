@@ -96,6 +96,10 @@ function clusterize() {
         alert('Please enter valid number of clusters (1-25).');
         return;
     }
+    if (points.length === 0) {
+        alert('Btw you do not have any points...');
+        return;
+    }
     let k = parseInt(inputKClusters.value);
 
     k = Math.min(points.length, k);
